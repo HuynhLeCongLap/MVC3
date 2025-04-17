@@ -25,12 +25,14 @@ if (user == null)
 		</div>
 
 		<div class="navbar-nav ms-auto d-flex align-items-center">
-			<a href="profile"> <span class="text-white me-3">👤 Hồ sơ
-					của bạn</span> <img
-				src="${pageContext.request.contextPath}/resources/images/avt.jpg"
-				alt="Avatar" class="rounded-circle" width="40">
-			</a>
-		</div>
+    <a href="${pageContext.request.contextPath}/users/search" class="btn btn-light me-3">🔍 Tìm kiếm </a>
+    <a href="profile">
+        <span class="text-white me-3">👤 Hồ sơ của bạn</span>
+        <img src="${pageContext.request.contextPath}/resources/images/avt.jpg"
+            alt="Avatar" class="rounded-circle" width="40">
+    </a>
+</div>
+
 	</nav>
 
 	<div class="container mt-5 pt-5 flex-grow-1">
