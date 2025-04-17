@@ -23,6 +23,7 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/spring-tx-6.2.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/spring-web-6.2.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/spring-webmvc-6.2.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/validation-api-2.0.1.Final.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v10.1">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.web"/>
@@ -30,6 +31,5 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/hibernate-core-5.6.9.Final.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javax.persistence-api-2.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lap/SpringMvc/src/main/webapp/WEB-INF/lib/validation-api-2.0.1.Final.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
