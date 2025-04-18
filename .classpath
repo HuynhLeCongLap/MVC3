@@ -6,6 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/webapp/WEB-INF/lib"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jakarta.annotation-api-3.0.0.jar"/>
@@ -31,5 +32,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/hibernate-core-5.6.9.Final.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javax.persistence-api-2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lap/MVC2/src/main/webapp/WEB-INF/lib/spring-orm-6.2.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
