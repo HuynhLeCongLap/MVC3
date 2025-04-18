@@ -8,4 +8,6 @@ public interface UserService {
     boolean registerUser(User user);
    
     List<User> findUsersByFollowerAndFollowing(int minFollowers, int minFollowing);
+    public boolean isEmailExists(String email);
+    void updateUserProfile(User user);
 }

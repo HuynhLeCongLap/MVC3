@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <hibernate-configuration>
+
     <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        <!-- Dialect cho MySQL, thay đổi nếu cần thiết -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+
+        <!-- Cấu hình driver JDBC và URL kết nối -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.url">
-            jdbc:mysql://localhost:3306/postify?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC
+            jdbc:mysql://localhost:3306/postify1?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC
         </property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">Lapmo843@</property>
 
+        <!-- Các cấu hình Hibernate để hiển thị SQL và tự động tạo bảng -->
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.format_sql">true</property>
 
+        <!-- Cấu hình c3p0 connection pool -->
         <property name="hibernate.c3p0.min_size">5</property>
         <property name="hibernate.c3p0.max_size">20</property>
+
+        <!-- Tùy chọn cho cache (nếu cần) -->
+        <property name="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
     </session-factory>
+
 </hibernate-configuration>

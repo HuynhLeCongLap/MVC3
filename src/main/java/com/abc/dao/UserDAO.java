@@ -1,94 +1,72 @@
 package com.abc.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import com.abc.entities.User;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
-import com.abc.config.DatabaseConfig;
-import com.abc.entities.User;
-
 @Repository
+@Transactional
 public class UserDAO {
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     public User getUserByUserName(String userName) {
-        String sql = "SELECT * FROM users WHERE username = ?";
-
-        try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, userName);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return new User(
-                    rs.getInt("id"),
-                    rs.getString("username"),
-                    rs.getString("password"),
-                    rs.getString("created_at")
-                );
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        String hql = "FROM User WHERE username = :username";
+        return sessionFactory.getCurrentSession()
+                .createQuery(hql, User.class)
+                .setParameter("username", userName)
+                .uniqueResult();
     }
 
     public boolean registerUser(User user) {
-        String sql = "INSERT INTO users (username, password, created_at) VALUES (?, ?, NOW())";
-
-        try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, user.getUsername());
-            stmt.setString(2, user.getPassWord());
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
+        try {
+            sessionFactory.getCurrentSession().save(user);
+            return true;
+        } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-
-        return false;
     }
 
     public List<User> findUsersByFollowerAndFollowing(int minFollowers, int minFollowing) {
-        List<User> result = new ArrayList<>();
         String sql = """
-            SELECT u.*, 
-                (SELECT COUNT(*) FROM follows f1 WHERE f1.followed_user_id = u.id) AS followers,
-                (SELECT COUNT(*) FROM follows f2 WHERE f2.following_user_id = u.id) AS following
-            FROM users u
-            HAVING followers >= ? AND following >= ?
-            """;
+            SELECT u.* FROM users u
+            WHERE 
+                (SELECT COUNT(*) FROM follows f1 WHERE f1.followed_user_id = u.id) >= :minFollowers
+                AND
+                (SELECT COUNT(*) FROM follows f2 WHERE f2.following_user_id = u.id) >= :minFollowing
+        """;
 
-        try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, minFollowers);
-            stmt.setInt(2, minFollowing);
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                User user = new User(
-                    rs.getInt("id"),
-                    rs.getString("username"),
-                    rs.getString("password"),
-                    rs.getString("created_at")
-                );
-                result.add(user);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return result;
+        return sessionFactory.getCurrentSession()
+                .createNativeQuery(sql, User.class)
+                .setParameter("minFollowers", minFollowers)
+                .setParameter("minFollowing", minFollowing)
+                .getResultList();
     }
-} 
+
+    public boolean isEmailExists(String email) {
+        String hql = "SELECT COUNT(u) FROM User u WHERE u.email = :email";
+        Long count = sessionFactory.getCurrentSession()
+                .createQuery(hql, Long.class)
+                .setParameter("email", email)
+                .uniqueResult();
+        return count != null && count > 0;
+    }
+
+    public User findByEmail(String email) {
+        String hql = "FROM User WHERE email = :email";
+        return sessionFactory.getCurrentSession()
+                .createQuery(hql, User.class)
+                .setParameter("email", email)
+                .uniqueResult();
+    }
+
+    public void update(User user) {
+        sessionFactory.getCurrentSession().update(user);
+    }
+}

@@ -28,4 +28,12 @@ public class UserServiceImpl implements UserService {
     public List<User> findUsersByFollowerAndFollowing(int minFollowers, int minFollowing) {
         return userDAO.findUsersByFollowerAndFollowing(minFollowers, minFollowing);
     }
+    @Override
+    public boolean isEmailExists(String email) {
+        return userDAO.findByEmail(email) != null;
+    }
+    @Override
+    public void updateUserProfile(User user) {
+        userDAO.update(user);
+    }
 }
